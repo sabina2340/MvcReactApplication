@@ -1,13 +1,13 @@
 ﻿using ApplicationMVC1.Server.Data;
 using ApplicationMVC1.Server.Models;
 using ApplicationMVC1.Server.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationMVC1.Server.Services
 {
         public class TrelationService : ITrelationService
-        {
+    {
             private MyDataContext _dataContext;
-
             public TrelationService(MyDataContext dataContext)
             {
                 _dataContext = dataContext;
@@ -54,7 +54,7 @@ namespace ApplicationMVC1.Server.Services
                 return _dataContext.Trelations.FirstOrDefault(x => x.Id == id);
             }
 
-            public List<Trelation> Get()
+            public DbSet<Trelation> Get()
             {
                 return _dataContext.Trelations;
            }

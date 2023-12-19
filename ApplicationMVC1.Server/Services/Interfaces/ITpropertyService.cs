@@ -1,4 +1,5 @@
 ﻿using ApplicationMVC1.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationMVC1.Server.Services.Interfaces
 {
@@ -10,7 +11,7 @@ namespace ApplicationMVC1.Server.Services.Interfaces
 
             Tproperty Get(int id);
 
-            List<Tproperty> Get();
+            DbSet<Tproperty> Get();
 
             void Delete(int id);
       

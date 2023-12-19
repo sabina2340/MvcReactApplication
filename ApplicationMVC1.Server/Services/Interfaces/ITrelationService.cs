@@ -1,4 +1,5 @@
 ﻿using ApplicationMVC1.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationMVC1.Server.Services.Interfaces
 {
@@ -10,7 +11,7 @@ namespace ApplicationMVC1.Server.Services.Interfaces
 
             Trelation Get(int id);
 
-            List<Trelation> Get();
+            DbSet<Trelation> Get();
 
             void Delete(int id);
   

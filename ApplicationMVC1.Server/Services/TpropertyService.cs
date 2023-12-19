@@ -1,6 +1,7 @@
 ﻿using ApplicationMVC1.Server.Data;
 using ApplicationMVC1.Server.Models;
 using ApplicationMVC1.Server.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationMVC1.Server.Services
 {
@@ -54,7 +55,7 @@ namespace ApplicationMVC1.Server.Services
             return _dataContext.Tproperties.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<Tproperty> Get()
+        public DbSet <Tproperty> Get()
         {
             return _dataContext.Tproperties;
         }

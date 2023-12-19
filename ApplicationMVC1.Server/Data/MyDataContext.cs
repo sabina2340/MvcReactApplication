@@ -1,20 +1,27 @@
 ﻿using ApplicationMVC1.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationMVC1.Server.Data
 {
-    public class MyDataContext
+    
+    public class MyDataContext : DbContext
     {
-        public List<Tgroup> Tgroups { get; set; }
-        public List<Trelation> Trelations { get; set; }
-        public List<Tproperty> Tproperties { get; set; }
+        public DbSet<Tgroup> Tgroups { get; set; }
+        public DbSet<Trelation> Trelations { get; set; }
+        public DbSet<Tproperty> Tproperties { get; set; }
 
-        public MyDataContext()
+        public MyDataContext(DbContextOptions<MyDataContext> options) : base(options)
         {
-            Tgroups = new List<Tgroup>();
-
-            Trelations= new List<Trelation>();
-
-            Tproperties = new List<Tproperty>();    
+            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Core_Entity;Username=postgres;Password=sabinamini04;");
         }
+
+        //public MyDataContext()
+        //{
+        //    Tgroups = new List<Tgroup>();
+
+        //    Trelations= new List<Trelation>();
+
+        //    Tproperties = new List<Tproperty>();    
+        //}
     }
 }

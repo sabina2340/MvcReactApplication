@@ -1,6 +1,7 @@
 ﻿using ApplicationMVC1.Server.Data;
 using ApplicationMVC1.Server.Models;
 using ApplicationMVC1.Server.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace ApplicationMVC1.Server.Services
@@ -52,11 +53,10 @@ namespace ApplicationMVC1.Server.Services
             return _dataContext.Tgroups.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<Tgroup> Get()
+        public DbSet<Tgroup> Get()
         {
             return _dataContext.Tgroups;
         }
     }
 
 }
-
