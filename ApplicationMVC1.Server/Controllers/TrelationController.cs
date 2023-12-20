@@ -5,49 +5,63 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApplicationMVC1.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class TrelationController : ControllerBase
     {
-        private ITrelationService _trelationService;
+        private readonly ITrelationService _trelationService;
 
         public TrelationController(ITrelationService trelationService)
         {
             _trelationService = trelationService;
         }
 
-        [HttpPost]
-        public Trelation Create(Trelation model)
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            return _trelationService.Create(model);
-        }
-
-        [HttpPatch]
-        public Trelation Update(Trelation model)
-        {
-            return _trelationService.Update(model);
+            var models = _trelationService.GetAll();
+            return Ok(models);
         }
 
         [HttpGet("{id}")]
-        public Trelation Get(int id)
+        public IActionResult GetById(int id)
         {
-            return _trelationService.Get(id);
+            var model = _trelationService.GetById(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
         }
 
-        [HttpGet]
-        public IEnumerable<Trelation> GetAll()
+        [HttpPost]
+        public IActionResult Create(Trelation model)
         {
-            return _trelationService.Get();
+            var createdModel = _trelationService.Create(model);
+            return CreatedAtAction(nameof(GetById), new { id = createdModel.Id }, createdModel);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Trelation updatedModel)
+        {
+            var existingModel = _trelationService.Update(id, updatedModel);
+
+            if (existingModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(existingModel);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _trelationService.Delete(id);
-
-            return Ok();
+            return NoContent();
         }
     }
-
 }
 

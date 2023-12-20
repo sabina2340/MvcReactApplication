@@ -12,16 +12,7 @@ namespace ApplicationMVC1.Server.Data
 
         public MyDataContext(DbContextOptions<MyDataContext> options) : base(options)
         {
-            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Core_Entity;Username=postgres;Password=sabinamini04;");
         }
 
-        //public MyDataContext()
-        //{
-        //    Tgroups = new List<Tgroup>();
-
-        //    Trelations= new List<Trelation>();
-
-        //    Tproperties = new List<Tproperty>();    
-        //}
     }
 }

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApplicationMVC1.Server.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    [Migration("20231219144735_Initial")]
+    [Migration("20231220145859_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -50,9 +50,6 @@ namespace ApplicationMVC1.Server.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("GroupId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Group_id")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -96,7 +93,7 @@ namespace ApplicationMVC1.Server.Migrations
             modelBuilder.Entity("ApplicationMVC1.Server.Models.Tproperty", b =>
                 {
                     b.HasOne("ApplicationMVC1.Server.Models.Tgroup", "Group")
-                        .WithMany("Properties")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -121,11 +118,6 @@ namespace ApplicationMVC1.Server.Migrations
                     b.Navigation("ChildGroup");
 
                     b.Navigation("ParentGroup");
-                });
-
-            modelBuilder.Entity("ApplicationMVC1.Server.Models.Tgroup", b =>
-                {
-                    b.Navigation("Properties");
                 });
 #pragma warning restore 612, 618
         }

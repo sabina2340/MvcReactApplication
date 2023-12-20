@@ -49,9 +49,6 @@ namespace ApplicationMVC1.Server.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Group_id")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -93,7 +90,7 @@ namespace ApplicationMVC1.Server.Migrations
             modelBuilder.Entity("ApplicationMVC1.Server.Models.Tproperty", b =>
                 {
                     b.HasOne("ApplicationMVC1.Server.Models.Tgroup", "Group")
-                        .WithMany("Properties")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -118,11 +115,6 @@ namespace ApplicationMVC1.Server.Migrations
                     b.Navigation("ChildGroup");
 
                     b.Navigation("ParentGroup");
-                });
-
-            modelBuilder.Entity("ApplicationMVC1.Server.Models.Tgroup", b =>
-                {
-                    b.Navigation("Properties");
                 });
 #pragma warning restore 612, 618
         }

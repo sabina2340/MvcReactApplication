@@ -8,55 +8,51 @@ namespace ApplicationMVC1.Server.Services
 {
     public class TgroupService : ITgroupService
     {
-        private MyDataContext _dataContext;
+        private readonly MyDataContext _dataContext;
 
         public TgroupService(MyDataContext dataContext)
         {
             _dataContext = dataContext;
         }
 
+        public IEnumerable<Tgroup> GetAll()
+        {
+            return _dataContext.Tgroups.ToList();
+        }
+
+        public Tgroup GetById(int id)
+        {
+            return _dataContext.Tgroups.Find(id);
+        }
+
         public Tgroup Create(Tgroup model)
         {
-            var lastTgroup = _dataContext.Tgroups.LastOrDefault();
-            int newId = lastTgroup is null ? 1 : lastTgroup.Id + 1;
-
-            model.Id = newId;
             _dataContext.Tgroups.Add(model);
-
+            _dataContext.SaveChanges();
             return model;
         }
 
-        public Tgroup Update(Tgroup model)
+        public Tgroup Update(int id, Tgroup updatedModel)
         {
-            var modelToUpdate = _dataContext.Tgroups.FirstOrDefault(x => x.Id == model.Id);
+            var existingModel = _dataContext.Tgroups.Find(id);
 
-            if (modelToUpdate != null)
+            if (existingModel != null)
             {
-                modelToUpdate.Name = model.Name;
+                existingModel.Name = updatedModel.Name;
+                _dataContext.SaveChanges();
             }
 
-            return modelToUpdate;
+            return existingModel;
         }
-
         public void Delete(int id)
         {
-            var modelToDelete = _dataContext.Tgroups.FirstOrDefault(x => x.Id == id);
+            var modelToDelete = _dataContext.Tgroups.Find(id);
 
             if (modelToDelete != null)
             {
                 _dataContext.Tgroups.Remove(modelToDelete);
+                _dataContext.SaveChanges();
             }
         }
-
-        public Tgroup Get(int id)
-        {
-            return _dataContext.Tgroups.FirstOrDefault(x => x.Id == id);
-        }
-
-        public DbSet<Tgroup> Get()
-        {
-            return _dataContext.Tgroups;
-        }
     }
-
 }

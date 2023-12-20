@@ -5,48 +5,64 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApplicationMVC1.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class TpropertyController : ControllerBase
     {
-        private ITpropertyService _tpropertyService;
+        private readonly ITpropertyService _tpropertyService;
 
         public TpropertyController(ITpropertyService tpropertyService)
         {
             _tpropertyService = tpropertyService;
         }
 
-        [HttpPost]
-        public Tproperty Create(Tproperty model)
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            return _tpropertyService.Create(model);
-        }
-
-        [HttpPatch]
-        public Tproperty Update(Tproperty model)
-        {
-            return _tpropertyService.Update(model);
+            var models = _tpropertyService.GetAll();
+            return Ok(models);
         }
 
         [HttpGet("{id}")]
-        public Tproperty Get(int id)
+        public IActionResult GetById(int id)
         {
-            return _tpropertyService.Get(id);
+            var model = _tpropertyService.GetById(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
         }
 
-        [HttpGet]
-        public IEnumerable<Tproperty> GetAll()
+        [HttpPost]
+        public IActionResult Create(Tproperty model)
         {
-            return _tpropertyService.Get();
+            var createdModel = _tpropertyService.Create(model);
+            return CreatedAtAction(nameof(GetById), new { id = createdModel.Id }, createdModel);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Tproperty updatedModel)
+        {
+            var existingModel = _tpropertyService.Update(id, updatedModel);
+
+            if (existingModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(existingModel);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             _tpropertyService.Delete(id);
-
-            return Ok();
+            return NoContent();
         }
     }
+
 }
 

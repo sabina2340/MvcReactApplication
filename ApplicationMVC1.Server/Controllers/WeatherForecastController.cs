@@ -1,3 +1,4 @@
+using ApplicationMVC1.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApplicationMVC1.Server.Controllers

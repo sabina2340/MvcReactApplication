@@ -32,7 +32,6 @@ namespace ApplicationMVC1.Server.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
-                    Group_id = table.Column<int>(type: "integer", nullable: false),
                     GroupId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

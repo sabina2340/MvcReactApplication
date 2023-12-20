@@ -3,7 +3,7 @@ using ApplicationMVC1.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApplicationMVC1.Server.Controllers
+namespace ApplicationMVC1.Server.Controllers    
 {
     [Route("api/[controller]")]
     [ApiController]

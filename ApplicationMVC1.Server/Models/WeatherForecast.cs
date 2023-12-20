@@ -1,4 +1,4 @@
-namespace ApplicationMVC1.Server
+namespace ApplicationMVC1.Server.Models
 {
     public class WeatherForecast
     {

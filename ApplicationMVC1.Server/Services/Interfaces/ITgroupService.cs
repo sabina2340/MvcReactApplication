@@ -5,14 +5,11 @@ namespace ApplicationMVC1.Server.Services.Interfaces
 {
     public interface ITgroupService
     {
-            Tgroup Create(Tgroup model);
-
-            Tgroup Update(Tgroup model);
-
-            Tgroup Get(int id);
-
-            DbSet<Tgroup> Get();
-
-            void Delete(int id);
+        IEnumerable<Tgroup> GetAll();
+        Tgroup GetById(int id);
+        Tgroup Create(Tgroup model);
+        Tgroup Update(int id, Tgroup updatedModel);
+        void Delete(int id);
     }
+
 }

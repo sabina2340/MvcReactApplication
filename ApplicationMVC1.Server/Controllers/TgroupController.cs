@@ -5,49 +5,62 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApplicationMVC1.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class TgroupController : ControllerBase
     {
-            private ITgroupService _tgroupService;
+        private readonly ITgroupService _tgroupService;
 
-            public TgroupController(ITgroupService tgroupService)
-            {
-                _tgroupService = tgroupService;
-            }
-
-            [HttpPost]
-            public Tgroup Create(Tgroup model)
-            {
-                return _tgroupService.Create(model);
-            }
-
-            [HttpPatch]
-            public Tgroup Update(Tgroup model)
-            {
-                return _tgroupService.Update(model);
-            }
-
-            [HttpGet("{id}")]
-            public Tgroup Get(int id)
-            {
-                return _tgroupService.Get(id);
-            }
-
-            [HttpGet]
-            public IEnumerable<Tgroup> GetAll()
-            {
-                return _tgroupService.Get();
-            }
-
-            [HttpDelete("{id}")]
-            public IActionResult Delete(int id)
-            {
-                _tgroupService.Delete(id);
-
-                return Ok();
-            }
+        public TgroupController(ITgroupService tgroupService)
+        {
+            _tgroupService = tgroupService;
         }
 
-   
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var models = _tgroupService.GetAll();
+            return Ok(models);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var model = _tgroupService.GetById(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(model);
+        }
+
+        [HttpPost]
+        public IActionResult Create(Tgroup model)
+        {
+            var createdModel = _tgroupService.Create(model);
+            return CreatedAtAction(nameof(GetById), new { id = createdModel.Id }, createdModel);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Tgroup updatedModel)
+        {
+            var existingModel = _tgroupService.Update(id, updatedModel);
+
+            if (existingModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(existingModel);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _tgroupService.Delete(id);
+            return NoContent();
+        }
+    }
 }
