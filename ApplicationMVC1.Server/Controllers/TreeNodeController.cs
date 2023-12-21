@@ -5,47 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApplicationMVC1.Server.Controllers    
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class TreeNodeController : ControllerBase
+    [Route("api/[controller]")]
+    public class TreeController : ControllerBase
     {
-        private ITreeNodeService _treeNodeService;
+        private readonly ITreeService _treeService;
 
-        public TreeNodeController(ITreeNodeService treeNodeService)
+        public TreeController(ITreeService treeService)
         {
-            _treeNodeService = treeNodeService;
-        }
-
-        [HttpPost]
-        public TreeNode Create(TreeNode model)
-        {
-            return _treeNodeService.Create(model);
-        }
-
-        [HttpPatch]
-        public TreeNode Update(TreeNode model)
-        {
-            return _treeNodeService.Update(model);
-        }
-
-        [HttpGet("{id}")]
-        public TreeNode Get(int id)
-        {
-            return _treeNodeService.Get(id);
+            _treeService = treeService;
         }
 
         [HttpGet]
-        public IEnumerable<TreeNode> GetAll()
+        public IActionResult GetTree()
         {
-            return _treeNodeService.GetAll();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            _treeNodeService.Delete(id);
-
-            return Ok();
+            var tree = _treeService.GetTree();
+            return Ok(tree);
         }
     }
 }

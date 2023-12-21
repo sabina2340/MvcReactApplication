@@ -1,8 +1,9 @@
-using ApplicationMVC1.Server.Data;
 using ApplicationMVC1.Server.Services.Interfaces;
 using ApplicationMVC1.Server.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using ApplicationMVC1.Server.Repository;
+using ApplicationMVC1.Server.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,8 @@ builder.Services.AddDbContext<MyDataContext>(options =>
 builder.Services.AddScoped<ITgroupService, TgroupService>();
 builder.Services.AddScoped<ITpropertyService, TpropertyService>();
 builder.Services.AddScoped<ITrelationService, TrelationService>();
-builder.Services.AddScoped<ITreeNodeService, TreeNodeService>();
+builder.Services.AddScoped<ITreeService, TreeService>();
+builder.Services.AddScoped<ITreeRepository, TreeRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

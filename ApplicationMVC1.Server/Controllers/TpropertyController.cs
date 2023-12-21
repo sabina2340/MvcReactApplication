@@ -37,7 +37,7 @@ namespace ApplicationMVC1.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Tproperty model)
+        public IActionResult Create([FromBody] Tproperty model)
         {
             var createdModel = _tpropertyService.Create(model);
             return CreatedAtAction(nameof(GetById), new { id = createdModel.Id }, createdModel);

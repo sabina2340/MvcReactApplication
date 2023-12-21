@@ -1,5 +1,5 @@
-﻿using ApplicationMVC1.Server.Data;
-using ApplicationMVC1.Server.Models;
+﻿using ApplicationMVC1.Server.Models;
+using ApplicationMVC1.Server.Repository;
 using ApplicationMVC1.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
