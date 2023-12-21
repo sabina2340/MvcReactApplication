@@ -18,11 +18,20 @@ namespace ApplicationMVC1.Server.Repository
             return _context.Tgroups.FirstOrDefault(g => g.Id == 1);
         }
 
+        
         public List<Tgroup> GetChildGroups(int parentId)
-        {
+        {   
             // Вернуть дочерние группы для указанного parentId из базы данных
-            //return _context.Tgroups.Where(g => g.ParentId == parentId).ToList();
-            return new List<Tgroup>();
+            var childGroupIds = _context.Trelations
+                .Where(r => r.ParentGroupId == parentId)
+                .Select(r => r.ChildGroupId)
+                .ToList();
+
+            var childGroups = _context.Tgroups
+                .Where(g => childGroupIds.Contains(g.Id))
+                .ToList();
+
+            return childGroups;
         }
 
         public List<Tproperty> GetProperties(int groupId)

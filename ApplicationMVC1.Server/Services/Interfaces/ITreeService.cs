@@ -4,7 +4,7 @@ namespace ApplicationMVC1.Server.Services.Interfaces
 {
     public interface ITreeService
     {
-        TreeNode GetTree();
+        List<TreeNode> GetTree();
     }
 
 }

@@ -9,65 +9,99 @@ namespace ApplicationMVC1.Server.Services
     public class TreeService : ITreeService
     {
         private readonly ITreeRepository _treeRepository;
+        // дерево в виде списка узлов
+        List<TreeNode> tree;
 
         public TreeService(ITreeRepository treeRepository)
         {
             _treeRepository = treeRepository;
+
         }
 
-        public TreeNode GetTree()
+        public List<TreeNode> GetTree()
         {
-            //// Получите корневой элемент из Tgroup
-            //var rootGroup = _treeRepository.GetRootGroup();
+            tree = new List<TreeNode>();
+            // Получите корневой элемент из Tgroup
+            var rootGroup = _treeRepository.GetRootGroup();
 
-            //// Создайте корневой узел для дерева
-            //var rootNode = new TreeNode
-            //{
-            //    Text = rootGroup.Name,
-            //    Name = $"{rootGroup.Id}|Group"
-            //};
+            // Создайте корневой узел для дерева
+            var rootNode = new TreeNode
+            {
+                Text = rootGroup.Name,
+                Name = $"{rootGroup.Id}|Group"
+            };
+            // добавим его в список узлов дерева
+            tree.Add(rootNode);
 
-            //// Рекурсивно добавьте дочерние узлы
-            //AddChildNodes(rootNode);
+            // Рекурсивно добавьте дочерние узлы корня
+            AddChildNodes(rootNode);
 
-            //return rootNode;
-            return new TreeNode();
+            return tree;
         }
 
         private void AddChildNodes(TreeNode parentNode)
         {
-            //// Получите дочерние группы из базы данных по parentId
-            //var childGroups = _treeRepository.GetChildGroups(parentNode.Id);
+            int id = -1;
+            string name;
 
-            //foreach (var childGroup in childGroups)
-            //{
-            //    var childNode = new TreeNode
-            //    {
-            //        Text = childGroup.Name,
-            //        Name = $"{childGroup.Id}|Group"
-            //    };
+            string inputString = parentNode.Name; // по типу: "123|Group"
+            // cчитываем id и тип(Group/Property)
+            try
+            {
+                string[] parts = inputString.Split('|');
 
-            //    // Рекурсивно добавьте дочерние узлы для текущей группы
-            //    AddChildNodes(childNode);
-
-            //    // Добавьте дочерний узел к родительскому узлу
-            //    //parentNode.Children.Add(childNode);
-            //}
-
-            // Получите свойства (Tproperty) для текущей группы
-            //var properties = _treeRepository.GetProperties(parentNode.Id);
-
-            //foreach (var property in properties)
-            //{
-            //    var propertyNode = new TreeNode
-            //    {
-            //        Text = property.Name,
-            //        Name = $"{property.Id}|Property"
-            //    };
-
-                // Добавьте узел свойства к родительскому узлу
-                //parentNode.Children.Add(propertyNode);
+                if (parts.Length == 2)
+                {
+                    if (int.TryParse(parts[0], out id))
+                    {
+                        name = parts[1];
+                    }
+                    else
+                    {
+                        throw new FormatException("Не удалось преобразовать число.");
+                    }
+                }
+                else
+                {
+                    throw new FormatException("Строка не соответствует ожидаемому формату.");
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка: " + ex.Message);
+            }
+
+            // Получите дочерние группы из базы данных по parentId
+            var childGroups = _treeRepository.GetChildGroups(id);
+            //Получите свойства(Tproperty) для текущей группы
+            var childProperties = _treeRepository.GetProperties(id);
+
+            foreach (var childGroup in childGroups)
+            {
+                var childNode = new TreeNode
+                {
+                    Text = childGroup.Name,
+                    Name = $"{childGroup.Id}|Group"
+                };
+
+                // Рекурсивно добавляем дочерние узлы для текущей группы
+                AddChildNodes(childNode);
+
+                // добавим в список узлов узел группы
+                tree.Add(childNode);
+            }
+            foreach (var property in childProperties)
+            {
+                var propertyNode = new TreeNode
+                {
+                    Text = property.Name,
+                    Name = $"{property.Id}|Property"
+                };
+
+                // Добавим в список узлов узел свойство
+                tree.Add(propertyNode);
+            }
+        }
         
     }
 }
