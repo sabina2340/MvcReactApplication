@@ -18,6 +18,7 @@ builder.Services.AddScoped<ITrelationService, TrelationService>();
 builder.Services.AddScoped<ITreeService, TreeService>();
 builder.Services.AddScoped<ITreeRepository, TreeRepository>();
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -34,6 +35,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Разрешите CORS
+app.UseCors(builder =>
+{
+    builder.WithOrigins("https://localhost:5173") // Замените на свой фактический домен
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
 
 app.UseHttpsRedirection();
 

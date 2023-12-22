@@ -12,7 +12,7 @@ namespace ApplicationMVC1.Server.Repository
             _context = context;
         }
 
-        public Tgroup GetRootGroup()
+        public Tgroup GetRoot()
         {
             // Вернуть корневую группу (где Id = 1) из базы данных
             return _context.Tgroups.FirstOrDefault(g => g.Id == 1);
@@ -34,7 +34,7 @@ namespace ApplicationMVC1.Server.Repository
             return childGroups;
         }
 
-        public List<Tproperty> GetProperties(int groupId)
+        public List<Tproperty> GetChildProperties(int groupId)
         {
             // Вернуть свойства для указанной группы из базы данных
             return _context.Tproperties.Where(p => p.GroupId == groupId).ToList();

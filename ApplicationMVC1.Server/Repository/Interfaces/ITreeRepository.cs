@@ -4,8 +4,8 @@ namespace ApplicationMVC1.Server.Repository.Interfaces
 {
     public interface ITreeRepository
     {
-        Tgroup GetRootGroup();
+        Tgroup GetRoot();
         List<Tgroup> GetChildGroups(int parentId);
-        List<Tproperty> GetProperties(int groupId);
+        List<Tproperty> GetChildProperties(int groupId);
     }
 }

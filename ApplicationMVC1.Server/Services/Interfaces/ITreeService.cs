@@ -4,7 +4,10 @@ namespace ApplicationMVC1.Server.Services.Interfaces
 {
     public interface ITreeService
     {
-        List<TreeNode> GetTree();
+        public List<TreeNode> GetChildGroups(int id);
+        public List<TreeNode> GetChildProperties(int id);
+        TreeNode GetRoot();
+        //List<TreeNode> GetTree();
     }
 
 }

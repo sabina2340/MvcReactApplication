@@ -13,14 +13,39 @@ namespace ApplicationMVC1.Server.Controllers
 
         public TreeController(ITreeService treeService)
         {
-            _treeService = treeService;
+            _treeService = treeService;     
+        }
+        // по бизнес логике у свойства не может быть дочерних элементов
+        // у группы может быть дочерний элемент как группа, так и свойство
+
+        [HttpGet("GetRoot")]
+        public IActionResult GetRoot()
+        {
+            var root = _treeService.GetRoot();
+            return Ok(root);
         }
 
-        [HttpGet]
-        public IActionResult GetTree()
+        [HttpGet("GetChildGroups/{id}")]
+        public IActionResult GetChildGroups(int id)
         {
-            var tree = _treeService.GetTree();
-            return Ok(tree);
+            // в данном случае мы получаем дочерние группы только выбранного узла(без дочерних групп дочерних элементов)
+            var childGroups = _treeService.GetChildGroups(id);
+            return Ok(childGroups);
         }
+
+        [HttpGet("GetChildProperties/{id}")]
+        public IActionResult GetChildProperties(int id)
+        {
+            // дочерние свойства только выбранного узла
+            var childProperties = _treeService.GetChildProperties(id);
+            return Ok(childProperties);
+        }
+
+        //[HttpGet("GetTree")]
+        //public IActionResult GetTree()
+        //{
+        //    var tree = _treeService.GetTree();
+        //    return Ok(tree);
+        //}
     }
 }
