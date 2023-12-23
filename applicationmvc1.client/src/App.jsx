@@ -1,12 +1,12 @@
 import React from 'react';
-import TgroupList from "./components/TgroupList";
-
+import Tree from './components/Tree';
 
 const App = () => {
+
   return (
     <div>
-      <h1>Your React App</h1>
-      <TgroupList />
+      <h1>Tree App</h1>
+      <Tree rootId/>
     </div>
   );
 };

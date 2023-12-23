@@ -24,6 +24,15 @@ namespace ApplicationMVC1.Server.Controllers
             var root = _treeService.GetRoot();
             return Ok(root);
         }
+        
+        [HttpGet("GetChilds/{id}")]
+        public IActionResult GetChilds(int id)
+        {
+            // все дочерние элементы включая и группы и свойства
+            var childGroups = _treeService.GetChildGroups(id);
+            childGroups.AddRange(_treeService.GetChildProperties(id));
+            return Ok(childGroups);
+        }
 
         [HttpGet("GetChildGroups/{id}")]
         public IActionResult GetChildGroups(int id)
