@@ -20,6 +20,15 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
     closeForm();
   }
 
+  const handleCancel = () => {
+    setFormData({
+      Name: '',
+      Value: '',
+      GroupId: '',
+    });
+    closeForm();
+  };
+
   const addProperty = () => {
     // const newTproperty = {
     //   Name: formData.Name,
@@ -68,14 +77,7 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
     }
   };
 
-  const handleCancel = () => {
-    setFormData({
-      Name: '',
-      Value: '',
-      GroupId: '',
-    });
-    closeForm();
-  };
+  
 
   return (
     <div>

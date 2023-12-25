@@ -27,7 +27,7 @@ const App = () => {
           setActiveAction={setActiveAction}
         />
       </div>
-      
+
       <Tree onNodeClick={handleNodeClick} />
 
       <div>

@@ -15,6 +15,9 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
     if (activeAction === "Delete") {
       deleteGroup();
     }
+    setFormData({
+      Name: '',
+    });
     closeForm();
   };
 
@@ -28,7 +31,6 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
   const addGroup = async () => {
     try {
       const newTgroup = { ...formData };
-
       const response = await fetch('https://localhost:7070/api/Tgroup', {
         method: 'POST',
         headers: {
@@ -54,10 +56,6 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
       } else {
         console.error('Ошибка при добавлении свойства.');
       }
-
-      setFormData({
-        Name: '',
-      });
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -65,7 +63,20 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
 
   const editGroup = async () => {
     try {
-      console.log("Редактирование группы")
+      const editTgroup = { ...formData };
+      const parentId = selectedNode.id
+      const response = await fetch(`https://localhost:7070/api/Tgroup/${parentId}`, {
+        method: 'PUT', // Используйте 'PATCH', если редактируете часть данных
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editTgroup),
+      });
+      if (response.ok) {
+        console.log('Группа успешно отредактирована');
+      } else {
+        console.error('Ошибка при редактировании группы:', response.status);
+      }
     } catch (error) {
       console.error('Произошла ошибка при редактировании:', error);
     }
@@ -73,7 +84,19 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
 
   const deleteGroup = async () => {
     try {
-      console.log("Удаление группы")
+      const parentId = selectedNode.id
+      const response = await fetch(`https://localhost:7070/api/Tgroup/${parentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        console.log('Группа успешно удалена');
+      } else {
+        console.error('Ошибка при удалении группы:', response.status);
+      }
     } catch (error) {
       console.error('Произошла ошибка при удалении:', error);
     }
@@ -85,12 +108,12 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
       <h2>Форма редактирования группы</h2>
       <div style={{ marginBottom: '10px' }}>
         <label>
-          ID:
+          parentID:
           <input
             type="text"
             placeholder="ID"
-            value={formData.id}
-            onChange={(e) => setFormData({ ...formData, id: e.target.value })}
+            value={selectedNode.id}
+            readOnly
           />
         </label>
       </div>

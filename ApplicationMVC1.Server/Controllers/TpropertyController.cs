@@ -43,7 +43,7 @@ namespace ApplicationMVC1.Server.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdModel.Id }, createdModel);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public IActionResult Update(int id, Tproperty updatedModel)
         {
             var existingModel = _tpropertyService.Update(id, updatedModel);
