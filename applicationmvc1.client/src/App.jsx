@@ -1,28 +1,51 @@
 import React, { useState } from 'react';
+import Menu from './components/Menu';
 import Tree from './components/Tree';
+import TgroupForm from './components/TgroupForm';
+import TpropertyForm from './components/TpropertyForm';
 
 const App = () => {
-  const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedNode, setSelectedNode] = useState("");
+  const [activeForm, setActiveForm] = useState("");
+  const [activeAction, setActiveAction] = useState("");
 
   const handleNodeClick = (nodeData) => {
-    // Обновляем стейт с информацией о выбранном узле
     setSelectedNode(nodeData);
+  };
+
+  const handleCloseForms = () => {
+    setActiveForm("");
+    setActiveAction("");
   };
 
   return (
     <div>
+      <div style={{ marginRight: '20px' }}>
+        <Menu
+          selectedNode={selectedNode}
+          setActiveForm={setActiveForm}
+          setActiveAction={setActiveAction}
+        />
+      </div>
+      
       <Tree onNodeClick={handleNodeClick} />
+
       <div>
-        <h2>Selected Node:</h2>
-        {selectedNode ? (
-          <div>
-            <p><strong>Name:</strong> {selectedNode.name}</p>
-            <p><strong>Text:</strong> {selectedNode.text}</p>
-            <p><strong>ID:</strong> {selectedNode.id}</p>
-            <p><strong>Type:</strong> {selectedNode.type}</p>
-          </div>
-        ) : (
-          <p>No node selected</p>
+        {activeForm === 'Tproperty' && selectedNode !== null && activeAction !== null && (
+          <TpropertyForm
+            closeForm={handleCloseForms}
+            selectedNode={selectedNode}
+            activeAction={activeAction}
+          />  
+        )}
+      </div>
+      <div>
+        {activeForm === 'Tgroup' && selectedNode !== null && activeAction !== null && (
+          <TgroupForm 
+            closeForm={handleCloseForms}
+            selectedNode={selectedNode}
+            activeAction={activeAction}
+          />
         )}
       </div>
     </div>
