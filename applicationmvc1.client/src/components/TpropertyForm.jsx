@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
   const [formData, setFormData] = useState({
@@ -17,6 +17,11 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
     if (activeAction === "Delete") {
       deleteProperty();
     }
+    setFormData({
+      Name: '',
+      Value: '',
+      GroupId: '',
+    });
     closeForm();
   }
 
@@ -29,60 +34,86 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
     closeForm();
   };
 
-  const addProperty = () => {
-    // const newTproperty = {
-    //   Name: formData.Name,
-    //   Value: formData.Value,
-    //   GroupId: selectedNode.Id, // id родителя
-    //   Group: null
-    // };
-  
-    // fetch('https://localhost:7070/api/Tproperty', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(newTproperty),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     onAdd(data);
-    //     setFormData({
-    //       Name: '',
-    //       Value: '',
-    //       GroupId: '',
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error adding Tproperty:', error);
-    //     error.response.json().then((errorData) => {
-    //       console.error('Server error details:', errorData);
-    //     });
-    //   });
-  };
+  const addProperty = async () => {
+    try {
+      const newTproperty = {
+        Name: formData.Name,
+        Value: formData.Value,
+        GroupId: selectedNode.id
+      };
 
+      console.log("New Tproperty:", newTproperty);
+
+      const response = await fetch('https://localhost:7070/api/Tproperty', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTproperty),
+      });
+      if (response.ok) {
+        console.log("свойство добавлено");
+      } else {
+        console.error('Ошибка при добавлении свойства:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Произошла ошибка:', error);
+    }
+  };
+  
   const editProperty = async () => {
     try {
-      console.log("Редактирование группы")
+      const editedTproperty = {
+        Name: formData.Name,
+        Value: formData.Value,
+      };
+      const Id = selectedNode.id;
+      const response = await fetch(`https://localhost:7070/api/Tproperty/${Id}`, {
+        method: 'PATCH', // Используйте 'PATCH', если редактируете часть данных
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedTproperty),
+      });
+      if (response.ok) {
+        // Добавьте здесь логику для обновления дерева
+        // Например, вызовите функцию, которая обновляет дерево
+        // updateTree(selectedNode.ParentId);
+        console.log('Свойство успешно отредактировано');
+      } else {
+        console.error('Ошибка при редактировании свойства:', response.status);
+      }
     } catch (error) {
       console.error('Произошла ошибка при редактировании:', error);
     }
   };
-
+  
   const deleteProperty = async () => {
     try {
-      console.log("Удаление группы")
+      // удаляем запись в таблице tproperty
+      const Id = selectedNode.id
+      const response = await fetch(`https://localhost:7070/api/Tproperty/${Id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        // После успешного удаления свойства вызывайте функцию обновления дерева
+        // updateTree(selectedNode.ParentId);
+        console.log('Свойство успешно удалено');
+      } else {
+        console.error('Ошибка при удалении свойства:', response.status);
+      }
     } catch (error) {
       console.error('Произошла ошибка при удалении:', error);
     }
   };
 
-  
-
   return (
     <div>
       <h2>Форма редактирования свойства</h2>
-      <div style={{ marginBottom: '10px' }}>
+      <div>
         <label>
           Наименование:
           <input
@@ -94,7 +125,7 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
           />
         </label>
       </div>
-      <div style={{ marginBottom: '10px' }}>
+      <div>
         <label>
           Значение:
           <input
@@ -110,7 +141,7 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
         <button type="button" onClick={handleSave}>
           Сохранить
         </button>
-        <button type="button" onClick={handleCancel} style={{ marginLeft: '10px' }}>
+        <button type="button" onClick={handleCancel}>
           Отмена
         </button>
       </div>
@@ -119,10 +150,3 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
 };
 
 export default TpropertyForm;
-
-
-// useEffect(() => {
-  //   if (groupId) {
-  //     setFormData((prevData) => ({ ...prevData, GroupId: groupId }));
-  //   }
-  // }, [groupId]);

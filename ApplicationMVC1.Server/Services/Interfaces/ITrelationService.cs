@@ -10,5 +10,6 @@ namespace ApplicationMVC1.Server.Services.Interfaces
         Trelation Create(Trelation model);
         Trelation Update(int id, Trelation updatedModel);
         void Delete(int id);
+        //void DeleteByChildId(int v, int childId);
     }
 }

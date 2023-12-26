@@ -44,6 +44,19 @@ namespace ApplicationMVC1.Server.Controllers
         }
 
         [HttpPatch("{id}")]
+        public IActionResult UpdatePart(int id, Tproperty updatedModel)
+        {
+            var existingModel = _tpropertyService.UpdatePart(id, updatedModel);
+
+            if (existingModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(existingModel);
+        }
+
+        [HttpPut("{id}")]
         public IActionResult Update(int id, Tproperty updatedModel)
         {
             var existingModel = _tpropertyService.Update(id, updatedModel);

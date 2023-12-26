@@ -3,9 +3,10 @@ import Menu from './components/Menu';
 import Tree from './components/Tree';
 import TgroupForm from './components/TgroupForm';
 import TpropertyForm from './components/TpropertyForm';
+import './App.css';
 
 const App = () => {
-  const [selectedNode, setSelectedNode] = useState("");
+  const [selectedNode, setSelectedNode] = useState(null);
   const [activeForm, setActiveForm] = useState("");
   const [activeAction, setActiveAction] = useState("");
 
@@ -20,7 +21,8 @@ const App = () => {
 
   return (
     <div>
-      <div style={{ marginRight: '20px' }}>
+
+      <div className="tform-container">
         <Menu
           selectedNode={selectedNode}
           setActiveForm={setActiveForm}
@@ -28,7 +30,9 @@ const App = () => {
         />
       </div>
 
-      <Tree onNodeClick={handleNodeClick} />
+      <div>
+        <Tree onNodeClick={handleNodeClick} />
+      </div>
 
       <div>
         {activeForm === 'Tproperty' && selectedNode !== null && activeAction !== null && (
@@ -39,6 +43,7 @@ const App = () => {
           />  
         )}
       </div>
+
       <div>
         {activeForm === 'Tgroup' && selectedNode !== null && activeAction !== null && (
           <TgroupForm 
@@ -48,6 +53,7 @@ const App = () => {
           />
         )}
       </div>
+
     </div>
   );
 };

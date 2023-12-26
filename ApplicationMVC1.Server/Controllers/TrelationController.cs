@@ -62,6 +62,13 @@ namespace ApplicationMVC1.Server.Controllers
             _trelationService.Delete(id);
             return NoContent();
         }
+
+        //[HttpDelete("bychildid/{id}")]
+        //public IActionResult DeleteByChildParentId(int childId)
+        //{
+        //    _trelationService.DeleteByChildParentId(int childId);
+        //    return NoContent();
+        //}
     }
 }
 

@@ -30,6 +30,7 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
 
   const addGroup = async () => {
     try {
+      // добавляем запись в таблицу tgroup
       const newTgroup = { ...formData };
       const response = await fetch('https://localhost:7070/api/Tgroup', {
         method: 'POST',
@@ -40,12 +41,12 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
       });
 
       if (response.ok) {
+        // добавляем запись в таблицу trelation
         const responseData = await response.json();
         const newTrelation = {
           parentGroupId: selectedNode.id,
           childGroupId: responseData.id,
         };
-
         await fetch('https://localhost:7070/api/Trelation', {
           method: 'POST',
           headers: {
@@ -64,9 +65,9 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
   const editGroup = async () => {
     try {
       const editTgroup = { ...formData };
-      const parentId = selectedNode.id
-      const response = await fetch(`https://localhost:7070/api/Tgroup/${parentId}`, {
-        method: 'PUT', // Используйте 'PATCH', если редактируете часть данных
+      const Id = selectedNode.id
+      const response = await fetch(`https://localhost:7070/api/Tgroup/${Id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -84,6 +85,7 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
 
   const deleteGroup = async () => {
     try {
+      // удаляем запись в таблице tgroup
       const parentId = selectedNode.id
       const response = await fetch(`https://localhost:7070/api/Tgroup/${parentId}`, {
         method: 'DELETE',
@@ -91,9 +93,14 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
           'Content-Type': 'application/json',
         },
       });
-  
       if (response.ok) {
-        console.log('Группа успешно удалена');
+        
+        await fetch(`https://localhost:7070/api/Trelation/${parentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        });
       } else {
         console.error('Ошибка при удалении группы:', response.status);
       }
@@ -106,7 +113,7 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
   return (
     <div>
       <h2>Форма редактирования группы</h2>
-      <div style={{ marginBottom: '10px' }}>
+      <div>
         <label>
           parentID:
           <input
@@ -117,7 +124,7 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
           />
         </label>
       </div>
-      <div style={{ marginBottom: '10px' }}>
+      <div>
         <label>
           Наименование:
           <input
@@ -132,7 +139,7 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
         <button type="button" onClick={handleSave}>
           Сохранить
         </button>
-        <button type="button" onClick={handleCancel} style={{ marginLeft: '10px' }}>
+        <button type="button" onClick={handleCancel}>
           Отмена
         </button>
       </div>

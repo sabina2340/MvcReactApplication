@@ -10,6 +10,7 @@ namespace ApplicationMVC1.Server.Services.Interfaces
         Tproperty Create(Tproperty model);
         Tproperty Update(int id, Tproperty updatedModel);
         void Delete(int id);
+        Tproperty UpdatePart(int id, Tproperty updatedModel);
     }
 
 }

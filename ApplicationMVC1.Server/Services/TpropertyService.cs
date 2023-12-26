@@ -31,6 +31,22 @@ namespace ApplicationMVC1.Server.Services
             return model;
         }
 
+
+        public Tproperty UpdatePart(int id, Tproperty updatedModel)
+        {
+            var existingModel = _dataContext.Tproperties.Find(id);
+
+            if (existingModel != null)
+            {
+                existingModel.Name = updatedModel.Name;
+                existingModel.Value = updatedModel.Value;
+
+                _dataContext.SaveChanges();
+            }
+
+            return existingModel;
+        }
+
         public Tproperty Update(int id, Tproperty updatedModel)
         {
             var existingModel = _dataContext.Tproperties.Find(id);
@@ -57,6 +73,7 @@ namespace ApplicationMVC1.Server.Services
                 _dataContext.SaveChanges();
             }
         }
+
     }
 }
 
