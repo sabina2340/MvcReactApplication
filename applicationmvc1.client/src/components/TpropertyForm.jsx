@@ -69,16 +69,13 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
       };
       const Id = selectedNode.id;
       const response = await fetch(`https://localhost:7070/api/Tproperty/${Id}`, {
-        method: 'PATCH', // Используйте 'PATCH', если редактируете часть данных
+        method: 'PATCH', 
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(editedTproperty),
       });
       if (response.ok) {
-        // Добавьте здесь логику для обновления дерева
-        // Например, вызовите функцию, которая обновляет дерево
-        // updateTree(selectedNode.ParentId);
         console.log('Свойство успешно отредактировано');
       } else {
         console.error('Ошибка при редактировании свойства:', response.status);
@@ -99,8 +96,6 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
         },
       });
       if (response.ok) {
-        // После успешного удаления свойства вызывайте функцию обновления дерева
-        // updateTree(selectedNode.ParentId);
         console.log('Свойство успешно удалено');
       } else {
         console.error('Ошибка при удалении свойства:', response.status);
@@ -111,7 +106,17 @@ const TpropertyForm = ({ closeForm, selectedNode, activeAction }) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        position: 'absolute',
+        top: '30%', 
+        left: '30%', 
+        transform: 'translate(-50%, -50%)', 
+        border: '1px solid #ccc',
+        padding: '10px',
+        background: '#fff',
+      }}
+    >
       <h2>Форма редактирования свойства</h2>
       <div>
         <label>

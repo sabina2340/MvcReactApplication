@@ -47,21 +47,20 @@ const Menu = ({
         setActiveAction('Delete');
     }
   };
-
   return (
     <div>
       <h1>Меню</h1>
-      <ul>
-        <li onClick={toggleAddMenu}>
+      <ul style={{ display: 'flex', listStyleType: 'none', padding: 0 }}>
+        <li style={{ marginRight: '10px' }} onClick={toggleAddMenu}>
           Добавить
           {isAddMenuOpen && (
-            <ul>
-              <li onClick={handleAddGroupClick}>Группу</li>
+            <ul style={{ listStyleType: 'none', paddingLeft: 0, marginTop: '5px' }}>
+              <li onClick={handleAddGroupClick} style={{ marginRight: '10px' }}>Группу</li>
               <li onClick={handleAddPropertyClick}>Свойство</li>
             </ul>
           )}
         </li>
-        <li onClick={handleOnEditClick}>Редактировать</li>
+        <li style={{ marginRight: '10px' }} onClick={handleOnEditClick}>Редактировать</li>
         <li onClick={handleOnDeleteClick}>Удалить</li>
       </ul>
       <div>

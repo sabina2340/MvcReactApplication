@@ -111,7 +111,17 @@ const TgroupForm = ({ closeForm, selectedNode, activeAction }) => {
 
 
   return (
-    <div>
+    <div
+      style={{
+        position: 'absolute',
+        top: '30%', 
+        left: '30%', 
+        transform: 'translate(-50%, -50%)',
+        border: '1px solid #ccc',
+        padding: '10px',
+        background: '#fff',
+      }}
+    >
       <h2>Форма редактирования группы</h2>
       <div>
         <label>

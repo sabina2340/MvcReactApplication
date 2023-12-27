@@ -7,7 +7,7 @@ namespace ApplicationMVC1.Server.Services.Interfaces
         public List<TreeNode> GetChildGroups(int id);
         public List<TreeNode> GetChildProperties(int id);
         TreeNode GetRoot();
-        //List<TreeNode> GetTree();
+ 
     }
 
 }

@@ -15,8 +15,6 @@ namespace ApplicationMVC1.Server.Controllers
         {
             _treeService = treeService;     
         }
-        // по бизнес логике у свойства не может быть дочерних элементов
-        // у группы может быть дочерний элемент как группа, так и свойство
 
         [HttpGet("GetRoot")]
         public IActionResult GetRoot()
@@ -50,11 +48,5 @@ namespace ApplicationMVC1.Server.Controllers
             return Ok(childProperties);
         }
 
-        //[HttpGet("GetTree")]
-        //public IActionResult GetTree()
-        //{
-        //    var tree = _treeService.GetTree();
-        //    return Ok(tree);
-        //}
     }
 }

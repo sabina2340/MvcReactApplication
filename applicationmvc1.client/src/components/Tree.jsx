@@ -23,16 +23,12 @@ const Tree = ({ onNodeClick }) => {
   }, []); 
   
   const TreeNode = ({ node }) => {
-    // Пустой массив зависимостей, чтобы запросы выполнялись только при монтировании компонента
     const [children, setChildren] = useState([]);
-    
-    // логика для того чтобы вытащить из node который состоит из text и name - id, type и тд
     const text = node.text;
     const parts = node.name.split("|");
     const id = parts[0];
     const type = parts[1];
     
-    // если нажали на узел, то
     const handleNodeClick = () => {
       // Вызывает функцию из контейнера, передавая данные об узле
       onNodeClick({ id, type, text, name: node.name });
